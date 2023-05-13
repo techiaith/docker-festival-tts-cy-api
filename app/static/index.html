@@ -1,0 +1,47 @@
+<head>
+
+<link rel="stylesheet" href="css/milligram.css">
+
+<script type='text/javascript'>
+	
+	function speak() {
+    		var text = document.getElementById('tts-text').value.trim();
+    		
+    		var audioElement = document.createElement('audio');
+    		var url = "speak?text=" + encodeURI(text);
+    		
+    		audioElement.setAttribute('src', url);
+    		audioElement.play();
+	}
+	
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h1>Demo Testun-i-Leferydd Cymraeg Festival<h1>
+		</div>
+		
+		<div class="row">
+			<textarea id='tts-text' 
+				  spellcheck="false"
+				  style="font-size:large;" 
+				  placeholder="Teipiwch testun i'w lefaru // Type some text for synthesizing"></textarea>
+		</div>
+		<div class="row">
+			<button onclick="speak()">Chwarae // Play</button>
+		</div>
+	</div>
+	<div class="container" style="margin-top:100px">
+        	<div class="row">
+			<h3>Dolenni / Links</h3>
+		</div>
+		<div class="row">
+			<p>Uned Technolegau Iaith, Prifysgol Bangor // Language Technologies Unit, Bangor University - <a href="https://github.com/techiaith">github</a></p>
+		</div> 
+		<div class="row">
+			<p><a href="https://www.cstr.ed.ac.uk/projects/festival/">The Festival Speech Synthesis System</a></p>
+		</div>
+	</div>
+		
+</body>

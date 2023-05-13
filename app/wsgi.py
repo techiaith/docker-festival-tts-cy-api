@@ -1,7 +1,11 @@
+import os
 import cherrypy
 import festival
 
+
 from tools import de_accent
+from cherrypy.lib.static import serve_file
+
 
 class Stream(object):
 
@@ -9,10 +13,17 @@ class Stream(object):
         festival.execCommand("(voice_cb_cy_llg_diphone)")
      
     @cherrypy.expose
+    def index(self, name=''):
+        if len(name)==0:
+            name='index.html'
+        return serve_file(os.path.join(static_dir, name))
+    	
+    @cherrypy.expose
     def speak(self, text, stretch=1.2, format='mp3', pitch=5, **kwargs):
         
         try:
             format = format.lower()
+            
             if format not in ('mp3', 'wav'):
                 raise ValueError("'format' must be either 'mp3' or 'wav")
             
@@ -43,6 +54,7 @@ class Stream(object):
         cherrypy.response.headers["Content-Type"] = "audio/%s" % ('mpeg' if is_mp3 else 'wav')
         return tmpfile.read()
 
+static_dir = "/festival/static"
 
 cherrypy.config.update({
     'environment': 'production',
@@ -51,6 +63,14 @@ cherrypy.config.update({
     'log.error_file': '/var/log/festival/festivalapi.error.log',
 })
 
-cherrypy.tree.mount(Stream(), '/')
+conf = {
+        '/': {  # Root folder.
+            'tools.staticdir.on':   True,  # Enable or disable this rule.
+            'tools.staticdir.root': static_dir,
+            'tools.staticdir.dir':  '',
+         }
+       }
+    
+cherrypy.tree.mount(Stream(), '/', config=conf)
 application = cherrypy.tree
 
