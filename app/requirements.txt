@@ -1,0 +1,4 @@
+CherryPy>=18.8.0
+gunicorn>=20.1.0
+aiohttp>=3.8.4
+pyfestival>=0.6
